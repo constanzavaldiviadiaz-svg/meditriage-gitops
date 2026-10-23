@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base
+
+replicas:
+  - name: meditriage-api
+    count: 3
+
+patches:
+  - target:
+      version: v1
+      kind: ConfigMap
+      name: meditriage-config
+    patch: |-
+      - op: replace
+        path: /data/AMBIENTE
+        value: produccion
