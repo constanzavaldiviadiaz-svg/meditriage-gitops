@@ -6,7 +6,6 @@ metadata:
   labels:
     app: meditriage
 spec:
-  replicas: 3
   selector:
     matchLabels:
       app: meditriage
