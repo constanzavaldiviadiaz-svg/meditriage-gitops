@@ -4,9 +4,11 @@ kind: Kustomization
 resources:
   - ../../base
 
-replicas:
-  - name: meditriage-api
-    count: 3
+labels:
+  - pairs:
+      environment: production
+    includeSelectors: false
+    includeTemplates: true
 
 patches:
   - target:
@@ -17,3 +19,14 @@ patches:
       - op: replace
         path: /data/AMBIENTE
         value: produccion
+
+  - target:
+      kind: HorizontalPodAutoscaler
+      name: meditriage-api
+    patch: |-
+      - op: replace
+        path: /spec/minReplicas
+        value: 3
+      - op: replace
+        path: /spec/maxReplicas
+        value: 6
